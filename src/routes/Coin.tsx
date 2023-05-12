@@ -66,13 +66,18 @@ const Tab = styled.span<{ isActive: boolean }>`
   padding: 7px 0px;
   border-radius: 10px;
   color: ${props =>
-      props.isActive ? props.theme.accentColor : props.theme.textColor};
+    props.isActive ? props.theme.accentColor : props.theme.textColor};
   a {
     display: block;
   }
 `
 const Description = styled.p`
   margin: 20px 0px;
+`
+
+const GoHome = styled.div`
+  text-align: center;
+  padding: 20px;
 `
 
 interface RouteState {
@@ -141,15 +146,26 @@ function Coin() {
   const priceMatch = useMatch('/:coinId/price')
   const chartMatch = useMatch('/:coinId/chart')
 
-  const {isLoading: infoLoading, data: infoData} = useQuery<IInfoData>(['info', coinId], () => fetchCoinInfo(coinId))
-  const {isLoading: tickersLoading, data: tickersData} = useQuery<IPriceData>(['tickers', coinId], () => fetchCoinTickers(coinId))
+  const { isLoading: infoLoading, data: infoData } = useQuery<IInfoData>(
+    ['info', coinId],
+    () => fetchCoinInfo(coinId)
+  )
+  const { isLoading: tickersLoading, data: tickersData } = useQuery<IPriceData>(
+    ['tickers', coinId],
+    () => fetchCoinTickers(coinId)
+  )
   const loading = infoLoading || tickersLoading
 
   return (
     <Container>
       <Header>
-        <Title>{state?.name || 'Loading'}</Title>
+        <Title>{infoData?.name || 'Loading'}</Title>
       </Header>
+
+      <GoHome>
+        <Link to="/">GO HOME</Link>
+      </GoHome>
+
       {loading ? (
         <Loader>Loading...</Loader>
       ) : (
@@ -164,8 +180,10 @@ function Coin() {
               <span>${infoData?.symbol}</span>
             </OverviewItem>
             <OverviewItem>
-              <span>Open Source:</span>
-              <span>{infoData?.open_source ? 'Yes' : 'No'}</span>
+              <span>Price:</span>
+              <span>
+                ${tickersData?.quotes.USD.price.toFixed(3)}
+              </span>
             </OverviewItem>
           </Overview>
           <Description>{infoData?.description}</Description>

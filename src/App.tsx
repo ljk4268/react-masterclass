@@ -4,7 +4,10 @@ import Coin from './routes/Coin'
 import Coins from './routes/Coins'
 import Price from './routes/Price'
 import Chart from './routes/Chart'
-import { ReactQueryDevtools } from "react-query/devtools";
+import { ReactQueryDevtools } from 'react-query/devtools'
+import { ThemeProvider } from 'styled-components'
+import { darkTheme, lightTheme } from './theme'
+import { useState } from 'react'
 
 const GlobalStyle = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400&display=swap');
@@ -69,17 +72,22 @@ a {
 }
 `
 function App() {
+  const [isDark, setIsDark] = useState(true)
+  const toggleDark = () => setIsDark(current => !current)
   return (
     <>
-      <GlobalStyle />
-      <Routes>
-        <Route path="/" element={<Coins />} />
-        <Route path="/:coinId" element={<Coin />}>
-          <Route path="price" element={<Price />} />
-          <Route path="chart" element={<Chart />} />
-        </Route>
-      </Routes>
-      <ReactQueryDevtools initialIsOpen={true} />
+      <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
+        <button onClick={toggleDark}>Toggle Mode</button>
+        <GlobalStyle />
+        <Routes>
+          <Route path="/" element={<Coins />} />
+          <Route path="/:coinId" element={<Coin />}>
+            <Route path="price" element={<Price />} />
+            <Route path="chart" element={<Chart />} />
+          </Route>
+        </Routes>
+        <ReactQueryDevtools initialIsOpen={true} />
+      </ThemeProvider>
     </>
   )
 }

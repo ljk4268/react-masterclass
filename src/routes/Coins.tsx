@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+
 import { useQuery } from 'react-query'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
@@ -19,7 +19,7 @@ const CoinsList = styled.ul`
 `
 const Coin = styled.li`
   background-color: white;
-  color: ${props => props.theme.bgColor};
+  color: ${props => props.theme.textColor};
   padding: 20px;
   border-radius: 15px;
   margin-bottom: 10px;
