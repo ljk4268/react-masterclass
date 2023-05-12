@@ -4,6 +4,7 @@ import Coin from './routes/Coin'
 import Coins from './routes/Coins'
 import Price from './routes/Price'
 import Chart from './routes/Chart'
+import { ReactQueryDevtools } from "react-query/devtools";
 
 const GlobalStyle = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400&display=swap');
@@ -78,6 +79,7 @@ function App() {
           <Route path="chart" element={<Chart />} />
         </Route>
       </Routes>
+      <ReactQueryDevtools initialIsOpen={true} />
     </>
   )
 }
